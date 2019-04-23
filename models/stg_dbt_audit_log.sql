@@ -1,6 +1,6 @@
 with audit as (
 
-    select * from {{this.schema}}.dbt_audit_log
+    select * from '{{target.project}}'.{{this.schema}}.dbt_audit_log
 
 ),
 

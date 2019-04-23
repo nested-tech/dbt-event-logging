@@ -20,8 +20,3 @@ on-run-start:
   
 on-run-end:
   - "{{ logging.log_run_end_event() }}"
-
-
-models:
-  logging:  
-    schema: meta
