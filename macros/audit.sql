@@ -1,6 +1,6 @@
 {% macro get_audit_relation() %}
     
-    {% if target.name = 'prod' %}
+    {% if target.name == 'prod' %}
     {% set schema = target.schema~'_meta' %}
     {% else %}
     {% set schema = target.schema %}
