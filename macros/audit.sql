@@ -1,8 +1,15 @@
 {% macro get_audit_relation() %}
+    
+    {% if target.name = 'prod' %}
+    {% set schema = target.schema~'_meta' %}
+    {% else %}
+    {% set schema = target.schema %}
+    {% endif %}
+
     {%- set audit_table = 
         api.Relation.create(
             identifier='dbt_audit_log', 
-            schema=target.schema~'_meta', 
+            schema=schema, 
             type='table'
         ) -%}
     {{ return(audit_table) }}
@@ -33,11 +40,6 @@
         '{{ invocation_id }}'
         )
 
-{% endmacro %}
-
-
-{% macro create_audit_schema() %}
-    create schema if not exists {{ logging.get_audit_schema() }}
 {% endmacro %}
 
 
