@@ -1,6 +1,8 @@
+{% set relation =  get_audit_relation() %}
+
 with audit as (
 
-    select * from `{{target.project}}`.{{this.schema}}.dbt_audit_log
+    select * from `{{target.project}}`.{{relation.schema}}.dbt_audit_log
 
 ),
 
