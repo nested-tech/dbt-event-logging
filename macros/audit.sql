@@ -35,8 +35,8 @@
     values (
         '{{ event_name }}', 
         {{dbt_utils.current_timestamp_in_utc()}}, 
-        {% if variable != None %}'{{ schema }}'{% else %}null::varchar(512){% endif %}, 
-        {% if variable != None %}'{{ relation }}'{% else %}null::varchar(512){% endif %}, 
+        {% if variable != None %}'{{ schema }}'{% else %}{{ dbt_utils.safe_cast('null', dbt_utils.type_string()) }}{% endif %}, 
+        {% if variable != None %}'{{ relation }}'{% else %}{{ dbt_utils.safe_cast('null', dbt_utils.type_string()) }}{% endif %}, 
         '{{ invocation_id }}'
         )
 
@@ -47,11 +47,11 @@
 
     create table if not exists {{ logging.get_audit_relation() }}
     (
-       event_name       varchar(512),
+       event_name       {{dbt_utils.type_string()}},
        event_timestamp  {{dbt_utils.type_timestamp()}},
-       event_schema     varchar(512),
-       event_model      varchar(512),
-       invocation_id    varchar(512)
+       event_schema     {{dbt_utils.type_string()}},
+       event_model      {{dbt_utils.type_string()}},
+       invocation_id    {{dbt_utils.type_string()}}
     )
 
 {% endmacro %}
@@ -63,7 +63,7 @@
 
 
 {% macro log_run_end_event() %}
-    {{logging.log_audit_event('run completed')}}; commit;
+    {{logging.log_audit_event('run completed')}}
 {% endmacro %}
 
 
