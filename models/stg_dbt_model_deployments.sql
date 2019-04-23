@@ -25,7 +25,7 @@ aggregated as (
             end) as deployment_completed_at
     
     from events
-    where event_name ilike '%model%'
+    where lower(event_name) like '%model%'
     group by 1, 2, 3
 
 )
